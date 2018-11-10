@@ -14,3 +14,8 @@ def create_app(config=None):
         return "Test run to configure Travis CI"
 
     return app
+
+
+if __name__ == "__main__":
+    app = create_app()
+    app.run(debug=True)

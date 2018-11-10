@@ -6,15 +6,6 @@ python:
 
 install:
   - pip install -r requirements.txt
-  - pip install coveralls
-  - pip install codecov
 
 script:
-  - coverage run tests.py
   - pytest
-
-after_script:
-  - codecov
-  - coveralls
-
-   
