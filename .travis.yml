@@ -7,10 +7,13 @@ python:
 install:
   - pip install -r requirements.txt
   - pip install coveralls
+  - pip install codecov
 
 
 script:
   - pytest
+  - py.test test/ 
 
 after_script:
   - coveralls
+   - codecov
