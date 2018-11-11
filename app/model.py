@@ -15,7 +15,23 @@ PARCELS = [
         'destination': 'Otuke',
         'status': 'In Transit',
         'ownerId': 2
-    }
+    },
+    {
+        'id': 3,
+        'Item': 'HMIS FORMS',
+        'pickUp': 'YUMBE',
+        'destination': 'KOBOKO',
+        'status': 'Delivered',
+        'ownerId': 2
+    },
+    {
+        'id': 4,
+        'Item': 'APPRAISAL FORMS',
+        'pickUp': 'MMWANZA',
+        'destination': 'BUKOBA',
+        'status': 'Cancelled',
+        'ownerId': 1
+    },
 
 ]
 

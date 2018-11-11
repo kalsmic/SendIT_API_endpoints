@@ -17,12 +17,12 @@ from .errors import *
 def create_app(config=None):
     app = Flask(__name__)
 
-    @app.route('/api/v1/parcels')
+    @app.route('/api/v1/parcels', methods=['GET'])
     def get_parcels():
         """Fetch all parcel delivery orders"""
         return jsonify({'parcels': PARCELS}), 200
 
-    @app.route('/api/v1/parcels/<parcelId>')
+    @app.route('/api/v1/parcels/<parcelId>', methods=['GET'])
     def get_a_parcel(parcelId):
         """Fetch a specific parcel delivery order"""
         # cast parcelId to int
@@ -47,7 +47,7 @@ def create_app(config=None):
         # parcelId is of type int but does not exist in parcels
         return jsonify(Not_found), 404
 
-    @app.route('/api/v1/users/<userId>/parcels')
+    @app.route('/api/v1/users/<userId>/parcels', methods=['GET'])
     def get_a_parcel_by_userId(userId):
         """Fetch all parcel delivery
         orders by a specific user """
