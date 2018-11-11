@@ -8,12 +8,15 @@ install:
   - pip install -r requirements.txt
   - pip install coveralls
   - pip install codecov
+  - pip install pytest pytest-cov
 
 
 script:
   - pytest
   - py.test test/ 
+  - py.test --cov=app
 
 after_script:
   - coveralls
    - codecov
+   - coverage-badge -o coverage.svg
