@@ -1,7 +1,8 @@
-from flask import request, url_for, json
-from app import PARCELS
 
-Not_found = {"Error": "Not Found"}
+from flask import request, url_for, json
+from app.errors import (
+    Not_found
+)
 
 
 def test_get_a_parcel_with_invalid_parcel_id(client):

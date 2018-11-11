@@ -1,16 +1,17 @@
 # app
+from functools import wraps
 
 from flask import (
     Flask,
     jsonify,
-    Response,
-    abort
+
 )
 
 from model import (
     USERS,
     PARCELS
 )
+from .errors import *
 
 
 def create_app(config=None):
@@ -29,7 +30,7 @@ def create_app(config=None):
             parcelId = int(parcelId)
         # parcelId is not int
         except (ValueError):
-            return jsonify({'Error': 'Not Found'}), 404
+            return jsonify(Not_found), 404
 
         parcel = {}
 
@@ -44,11 +45,43 @@ def create_app(config=None):
                 parcel['Status'] = Order['status']
                 return jsonify({'Parcel': parcel}), 200
         # parcelId is of type int but does not exist in parcels
-        return jsonify({'Error': 'Not Found'}), 404
+        return jsonify(Not_found), 404
 
-    def get_a_parcel_by_userId():
+    @app.route('/api/v1/users/<userId>/parcels')
+    def get_a_parcel_by_userId(userId):
         """Fetch all parcel delivery
-         orders by a specific user """
+        orders by a specific user """
+
+        try:
+            userId = int(userId)
+
+        # id is not of type Number
+        except (TypeError, ValueError):
+            return jsonify(Bad_request), 400
+
+        # Is User valid
+        user_exists = False
+        for user in USERS:
+            if user['userId'] == userId:
+                user_exists = True
+
+        if not user_exists:
+            return jsonify(Bad_request), 400
+
+        # Only look up parcels for a valid user
+        user_parcels = []
+        for parcel in PARCELS:
+            if parcel['ownerId'] == userId:
+                #  user_parcels['ownerId'] = {
+                #      ''
+                #  }
+                user_parcels.append(parcel)
+
+            # valid user has no parcels
+        if not user_parcels:
+            return jsonify(Not_found), 404
+        # valid user has parcels
+        return jsonify({'parcels': user_parcels}), 200
 
     def cancel_a_delivery_order():
         """Cancel a specific parcel delivery order"""
