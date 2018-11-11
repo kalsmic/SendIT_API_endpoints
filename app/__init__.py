@@ -1,4 +1,5 @@
 # app
+
 from flask import (
     Flask,
     jsonify,
@@ -19,11 +20,31 @@ def create_app(config=None):
         """Fetch all parcel delivery orders"""
         return jsonify({'parcels': PARCELS}), 200
 
-        pass
-
-    def get_a_parcel():
+    @app.route('/api/v1/parcels/<parcelId>')
+    def get_a_parcel(parcelId):
         """Fetch a specific parcel delivery order"""
-        pass
+
+        # parcelId is not an interger
+        if not isinstance(parcelId, int):
+            return jsonify({'Error': 'Not found'}), 404
+
+        try:
+            for Order in PARCELS:
+                # parcel id exists
+                if Order['id'] == parcelId:
+                    return jsonify(
+                        'parcel', {
+                            'Title': Order['title'],
+                            'PickUpAddress': Order['pickUp'],
+                            'DestinationAddress': Order['destination'],
+                            'Status': Order['status']
+                        }
+                    ), 200
+            # parcel id doesn't exist
+            return jsonify({'Error': 'Not found'}), 404
+
+        except IndexError:
+            return jsonify({'Error': 'Not found'}), 404
 
     def get_a_parcel_by_userId():
         """Fetch all parcel delivery

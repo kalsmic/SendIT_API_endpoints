@@ -1,5 +1,5 @@
 # test factory
-from flask import jsonify, json
+from flask import json
 from app import create_app
 
 
