@@ -3,8 +3,7 @@ from functools import wraps
 
 from flask import (
     Flask,
-    jsonify,
-
+    jsonify
 )
 
 from model import (
@@ -83,9 +82,26 @@ def create_app(config=None):
         # valid user has parcels
         return jsonify({'parcels': user_parcels}), 200
 
-    def cancel_a_delivery_order():
+    @app.route('/api/v1/parcels/<parcelId>/cancel', methods=['PUT'])
+    def cancel_a_delivery_order(parcelId):
         """Cancel a specific parcel delivery order"""
-        pass
+        try:
+            parcelId = int(parcelId)
+
+        # id is not of type Number
+        except (TypeError, ValueError):
+            return jsonify(Bad_request), 400
+
+        modifiable = ('Delivered', 'Cancelled')
+        update = False
+
+        for parcel in PARCELS:
+                # Cancel order
+            if parcel['id'] == parcelId and parcel['status'] not in modifiable:
+                parcel['status'] = 'Cancelled'
+                return jsonify({'parcels': parcel}), 204
+
+        return jsonify(Not_modified), 304
 
     def add_a_parcel_order():
         """Create a parcel delivery order"""
