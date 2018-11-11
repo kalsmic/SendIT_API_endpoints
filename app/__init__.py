@@ -1,8 +1,10 @@
 # app
+
 from flask import (
     Flask,
     jsonify,
-    Response
+    Response,
+    abort
 )
 
 from model import (
@@ -19,11 +21,30 @@ def create_app(config=None):
         """Fetch all parcel delivery orders"""
         return jsonify({'parcels': PARCELS}), 200
 
-        pass
-
-    def get_a_parcel():
+    @app.route('/api/v1/parcels/<parcelId>')
+    def get_a_parcel(parcelId):
         """Fetch a specific parcel delivery order"""
-        pass
+        # cast parcelId to int
+        try:
+            parcelId = int(parcelId)
+        # parcelId is not int
+        except (ValueError):
+            return jsonify({'Error': 'Not Found'}), 404
+
+        parcel = {}
+
+        for Order in PARCELS:
+            # parcel id exists
+            if Order['id'] == int(parcelId):
+                parcel['id'] = Order['id']
+                parcel['Item'] = Order['Item']
+                parcel['PickUpAddress'] = Order['pickUp']
+                parcel['DestinationAddress'] = Order['destination']
+                parcel['ownerId'] = Order['ownerId']
+                parcel['Status'] = Order['status']
+                return jsonify({'Parcel': parcel}), 200
+        # parcelId is of type int but does not exist in parcels
+        return jsonify({'Error': 'Not Found'}), 404
 
     def get_a_parcel_by_userId():
         """Fetch all parcel delivery

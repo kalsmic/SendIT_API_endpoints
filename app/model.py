@@ -2,19 +2,19 @@
 PARCELS = [
     {
         'id': 1,
-        'title': 'Laptop',
+        'Item': 'Laptop',
         'pickUp': 'kampala',
         'destination': 'Moroto',
         'status': 'Pending',
-        'ownerid': 1
+        'ownerId': 1
     },
     {
         'id': 2,
-        'title': 'Office Cabin',
+        'Item': 'Office Cabin',
         'pickUp': 'Kole',
         'destination': 'Otuke',
         'status': 'In Transit',
-        'ownerid': 2
+        'ownerId': 2
     }
 
 ]

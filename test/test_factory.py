@@ -1,6 +1,6 @@
 # test factory
-from flask import jsonify, json
-from app import create_app
+from flask import json
+from app import PARCELS
 
 
 def test_get_parcels(client):
@@ -15,37 +15,9 @@ def test_get_parcels(client):
         # A single parcel is of Type dictionary
         assert isinstance(data['parcels'][0], dict)
 
-        assert data['parcels'][0] == {
-            'id': 1,
-            'title': 'Laptop',
-            'pickUp': 'kampala',
-            'destination': 'Moroto',
-            'status': 'Pending',
-            'ownerid': 1
-        }
-        assert data['parcels'][1] != {
-            'id': 1,
-            'title': 'Laptop',
-            'pickUp': 'kampala',
-            'destination': 'Moroto',
-            'status': 'Pending',
-            'ownerid': 1
-        }
+        assert data['parcels'][0] == PARCELS[0]
+        assert data['parcels'][1] != PARCELS[0]
 
-        assert data['parcels'][1] == {
-            'id': 2,
-            'title': 'Office Cabin',
-            'pickUp': 'Kole',
-            'destination': 'Otuke',
-            'status': 'In Transit',
-            'ownerid': 2
-        }
+        assert data['parcels'][1] == PARCELS[1]
 
-        assert data['parcels'][0] != {
-            'id': 2,
-            'title': 'Office Cabin',
-            'pickUp': 'Kole',
-            'destination': 'Otuke',
-            'status': 'In Transit',
-            'ownerid': 2
-        }
+        assert data['parcels'][0] != PARCELS[1]
