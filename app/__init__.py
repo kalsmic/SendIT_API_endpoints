@@ -3,7 +3,8 @@
 from flask import (
     Flask,
     jsonify,
-    Response
+    Response,
+    abort
 )
 
 from model import (
@@ -23,28 +24,27 @@ def create_app(config=None):
     @app.route('/api/v1/parcels/<parcelId>')
     def get_a_parcel(parcelId):
         """Fetch a specific parcel delivery order"""
-
-        # parcelId is not an interger
-        if not isinstance(parcelId, int):
-            return jsonify({'Error': 'Not found'}), 404
-
+        # cast parcelId to int
         try:
-            for Order in PARCELS:
-                # parcel id exists
-                if Order['id'] == parcelId:
-                    return jsonify(
-                        'parcel', {
-                            'Title': Order['title'],
-                            'PickUpAddress': Order['pickUp'],
-                            'DestinationAddress': Order['destination'],
-                            'Status': Order['status']
-                        }
-                    ), 200
-            # parcel id doesn't exist
-            return jsonify({'Error': 'Not found'}), 404
+            parcelId = int(parcelId)
+        # parcelId is not int
+        except (ValueError):
+            return jsonify({'Error': 'Not Found'}), 404
 
-        except IndexError:
-            return jsonify({'Error': 'Not found'}), 404
+        parcel = {}
+
+        for Order in PARCELS:
+            # parcel id exists
+            if Order['id'] == int(parcelId):
+                parcel['id'] = Order['id']
+                parcel['Item'] = Order['Item']
+                parcel['PickUpAddress'] = Order['pickUp']
+                parcel['DestinationAddress'] = Order['destination']
+                parcel['ownerId'] = Order['ownerId']
+                parcel['Status'] = Order['status']
+                return jsonify({'Parcel': parcel}), 200
+        # parcelId is of type int but does not exist in parcels
+        return jsonify({'Error': 'Not Found'}), 404
 
     def get_a_parcel_by_userId():
         """Fetch all parcel delivery
