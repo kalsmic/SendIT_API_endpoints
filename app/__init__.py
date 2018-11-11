@@ -5,16 +5,20 @@ from flask import (
     Response
 )
 
+from model import (
+    USERS,
+    PARCELS
+)
+
 
 def create_app(config=None):
     app = Flask(__name__)
 
-    @app.route('/')
-    def hello_world():
-        return "Test run to configure Travis CI"
-
+    @app.route('/api/v1/parcels')
     def get_parcels():
         """Fetch all parcel delivery orders"""
+        return jsonify({'parcels': PARCELS}), 200
+
         pass
 
     def get_a_parcel():
