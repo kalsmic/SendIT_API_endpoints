@@ -18,7 +18,8 @@ def create_app(config=None):
 
     @app.route('/')
     def index():
-        return "SendIT is a courier service that helps users deliver parcels to different destinations"
+        return "SendIT is a courier service that\
+         helps users deliver parcels to different destinations"
 
     @app.route('/api/v1/parcels', methods=['GET'])
     def get_parcels():
