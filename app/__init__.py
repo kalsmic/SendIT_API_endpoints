@@ -15,7 +15,11 @@ from .errors import *
 
 def create_app(config=None):
     app = Flask(__name__)
-
+    
+    @app.route('/')
+    def hello_SendIt():
+        return "SendIT is a courier service that helps users deliver parcels to different destinations"
+    
     @app.route('/api/v1/parcels', methods=['GET'])
     def get_parcels():
         """Fetch all parcel delivery orders"""
