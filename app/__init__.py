@@ -3,7 +3,9 @@ from functools import wraps
 
 from flask import (
     Flask,
-    jsonify
+    jsonify,
+    request,
+    json
 )
 
 from model import (
@@ -107,10 +109,29 @@ def create_app(config=None):
                 return jsonify({'parcels': parcel}), 204
 
         return jsonify(Not_modified), 304
-
+    @app.route('/api/v1/parcels', methods=['POST'])
     def add_a_parcel_order():
         """Create a parcel delivery order"""
-        pass
+        data = request.data
+        parcelDict = json.loads(data)
+
+        for key,value in parcelDict.items():
+            # empty fields
+            if not value:
+                return jsonify({'message':"{} cannot be empty".format(key)}),400
+        # add new parcel order
+        PARCELS.append(
+        {
+            'id': int( PARCELS[-1]['id']+1),
+            'Item': parcelDict['Item'],
+            'pickUp': parcelDict['pickUp'],
+            'destination': parcelDict['destination'],
+            'status': 'Pending',
+            'ownerId': parcelDict['ownerId']
+        }
+        )
+        # return the contents of the new order
+        return jsonify({'newOrder': PARCELS[-1]}),201
 
     return app
 
