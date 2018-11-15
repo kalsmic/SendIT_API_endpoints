@@ -18,11 +18,6 @@ from app.http_responses import (
 parcel = Blueprint('parcel',__name__,url_prefix='/api/v1')
 
 
-@parcel.route('/parcels', methods=['GET'])
-def get_parcels():
-    """Fetch all parcel delivery orders"""
-    return jsonify({'parcels': PARCELS}), 200
-
 
 @parcel.route('/parcels/<parcelId>', methods=['GET'])
 def get_a_parcel(parcelId):
