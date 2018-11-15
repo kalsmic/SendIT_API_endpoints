@@ -1,6 +1,6 @@
-
 from flask import request, url_for, json
-from app.errors import (
+
+from app.http_responses import (
     Not_found
 )
 
@@ -33,7 +33,7 @@ def test_get_a_parcel(client):
     response = client.get('/api/v1/parcels/1')
     assert response.status_code == 200
     data = json.loads(response.data.decode())
-    assert data['Parcel'] == {
+    assert data['parcel'] == {
         "DestinationAddress": "Moroto",
         "Item": "Laptop",
         "PickUpAddress": "kampala",
@@ -41,7 +41,7 @@ def test_get_a_parcel(client):
         "id": 1,
         "ownerId": 1
     }
-    assert data['Parcel'] != {
+    assert data['parcel'] != {
         "DestinationAddress": "Otuke",
         "Item": "Office Cabin",
         "PickUpAddress": "Kole",
