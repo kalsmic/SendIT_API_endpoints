@@ -19,34 +19,7 @@ parcel = Blueprint('parcel',__name__,url_prefix='/api/v1')
 
 
 
-@parcel.route('/parcels/<parcelId>', methods=['GET'])
-def get_a_parcel(parcelId):
-    """Fetch a specific parcel delivery order
-    Expects a parameter of type int
-    Returns: 404 Error if parcelId not found
-    Otherwise returns the parcel and HTTP code 200"""
-    # cast parcelId to int
-    try:
-        parcelId = int(parcelId)
-    # parcelId is not int
-    except (ValueError):
-        return jsonify(Not_found), 404
 
-    parcel = {}
-    for Order in PARCELS:
-        # parcel id exists
-        if Order['id'] == int(parcelId):
-            parcel['id'] = Order['id']
-            parcel['Item'] = Order['Item']
-            parcel['PickUpAddress'] = Order['pickUp']
-            parcel['DestinationAddress'] = Order['destination']
-            parcel['ownerId'] = Order['ownerId']
-            parcel['Status'] = Order['status']
-            
-            # Parcel is, return parcel
-            return jsonify({'parcel': parcel}), 200
-    # parcelId is of type int but does not exist in parcels
-    return jsonify(Not_found), 404
 
 
 @parcel.route('/parcels/<parcelId>/cancel', methods=['PUT'])

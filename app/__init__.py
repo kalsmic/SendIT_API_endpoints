@@ -9,6 +9,8 @@ from .dummy_data import (
 )
 
 from app.models.parcel.get_parcels import getParcels
+from app.models.parcel.get_parcel import getParcel
+
 from app.models.parcel.parcel import PARCEL
 
 from .http_responses import *
@@ -35,6 +37,7 @@ def create_app(config=None):
          deliver parcels to different destinations"
 
     app.register_blueprint(getParcels)
+    app.register_blueprint(getParcel)
     # app.register_blueprint(parcel)
     # app.register_blueprint(user)
 
