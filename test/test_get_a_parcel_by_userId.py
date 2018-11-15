@@ -1,5 +1,5 @@
 from app import PARCELS
-from app.errors import (
+from app.http_responses import (
     Bad_request,
     Not_found
 )
@@ -34,4 +34,4 @@ def test_get_parcels_for_a_valid_user_who_has_no_orders(client):
 def test_get_parcels_for_a_valid_user_who_has_atleast_one_order(client):
     response = client.get('/api/v1/users/1/parcels')
     assert response.status_code == 200
-#     assert json.loads(response.data) == Not_found
+    # assert json.loads(response.data) == Not_found
