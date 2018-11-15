@@ -1,6 +1,7 @@
 from flask import json
 from app.dummy_data import PARCELS
 
+
 def test_get_parcels(client):
     with client.get('/api/v1/parcels') as response:
         assert response.status_code == 200

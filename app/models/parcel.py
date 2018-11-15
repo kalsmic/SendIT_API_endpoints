@@ -38,7 +38,6 @@ def get_a_parcel(parcelId):
         return jsonify(Not_found), 404
 
     parcel = {}
-    
     for Order in PARCELS:
         # parcel id exists
         if Order['id'] == int(parcelId):
@@ -71,7 +70,6 @@ def cancel_a_delivery_order(parcelId):
         return jsonify(Bad_request), 400
 
     modifiable = ('Delivered', 'Cancelled')
-    update = False
 
     for parcel in PARCELS:
             # Cancel order

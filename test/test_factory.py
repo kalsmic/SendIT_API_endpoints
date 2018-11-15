@@ -13,4 +13,3 @@
 # def test_get_parcels(client):
 #     with client.get(url_for('parcels')) as response:
 #         assert response.status_code == 200
-

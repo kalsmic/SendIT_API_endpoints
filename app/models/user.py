@@ -2,10 +2,8 @@
 """ Module contains endpoints for getting a parcel order for a given user"""
 
 from flask import (
-    Flask,
     jsonify,
     request,
-    json,
     Blueprint
 )
 

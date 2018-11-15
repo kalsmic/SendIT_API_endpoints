@@ -1,4 +1,3 @@
-
 from flask import request, url_for, json
 
 from app.http_responses import (
