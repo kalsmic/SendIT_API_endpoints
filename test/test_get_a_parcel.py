@@ -11,7 +11,8 @@ from app.models.parcel.parcel import get_parcel_by_id
 
 
 def test_get_a_parcel_with_invalid_parcel_id(client):
-    with client.get('/api/v1/parcels/7') as parcelId_out_of_bounds:
+
+    with client.get('/api/v1/parcels/90') as parcelId_out_of_bounds:
         assert parcelId_out_of_bounds.status_code == 404
         assert json.loads(parcelId_out_of_bounds.data) == Not_found
 

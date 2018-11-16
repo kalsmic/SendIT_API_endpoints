@@ -40,3 +40,4 @@ def test_cancel_a_parcel_delivery_order_with_valid_parcelId(client):
 #      # Delivered
     with client.put('/api/v1/parcels/3/cancel') as status_delivered:
         assert status_delivered.status_code == 304
+
