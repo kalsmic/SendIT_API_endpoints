@@ -49,7 +49,10 @@ class PARCEL:
 def parcel_table():
     return {parcel.id: parcel for parcel in PARCELS}
 
+# returns the reference of the PARCEL Object Instance from memory
 def get_parcel_reference(id):
+    """parameter: expects an integer id
+    :returns: memory address of the parcel object"""
     return parcel_table()[id]
 
 
@@ -58,23 +61,35 @@ def get_parcel_by_id(id):
 
 PARCELS.extend ([
     # PARCEL(id, 'item' 'pickUp', 'destination', 'status', ownerId),
-    PARCEL('Laptop', 'Kampala', 'Moroto', 'Pending', 'owner1'),
-    PARCEL('Office Cabin', 'Kole', 'Otuke', 'In Transit','owner2'),
-    PARCEL('HMIS FORMS', 'Kitgum', 'Agago', 'Delivered', 'owner3'),
-    PARCEL('HRH PLANS' ,'Yumbe', 'Koboko', 'Cancelled', 'owner2'),
-    PARCEL('DJ Mavic Air Beats' ,'Mwanza', 'Bukoba', 'Cancelled', 'owner6'),
-    PARCEL('APPRAISAL FORMS', 'Mwanza', 'Bukoba', 'Pending', 'owner1')
+    PARCEL('Laptop', 'Kampala', 'Moroto', 'Pending', 1),
+    PARCEL('Office Cabin', 'Kole', 'Otuke', 'In Transit',2),
+    PARCEL('HMIS FORMS', 'Kitgum', 'Agago', 'Delivered', 1),
+    PARCEL('HRH PLANS' ,'Yumbe', 'Koboko', 'Cancelled', 1),
+    PARCEL('DJ Mavic Air Beats' ,'Mwanza', 'Bukoba', 'Cancelled', 1),
+    PARCEL('APPRAISAL FORMS', 'Mwanza', 'Bukoba', 'Pending', 2)
 
 ])
 
 if __name__ == "__main__":
+    # pass
     # add a parcel
     # PARCELS.append(PARCEL('item', 'pickUp', 'destination', 'status', 'owner5'))
 
     # print(get_parcel_by_id(1))
-    parcelIds = parcel_table().keys()
-    print('parcelId=',parcelIds)
-    parcelStatus = get_parcel_by_id(1)['status']
-    print('parcelstatus=',parcelStatus)
-    parcelStatus = get_parcel_by_id(1)
-    print(PARCELS[3].parcel_details())
+    # parcelIds = parcel_table().keys()
+    # print('parcelId=',parcelIds)
+    # parcelStatus = get_parcel_by_id(1)['status']
+    # print('parcelstatus=',parcelStatus)
+    # parcelS# from app.dummy_data import (
+#     PARCELS,
+#     # USERS
+#
+# )tatus = get_parcel_by_id(1)
+    # print(PARCELS[3].parcel_details())
+    #  for xparcel in parcel_table():
+     for xparcel in PARCELS:
+
+         print(xparcel.ownerId)
+         # for parcel in PARCELS:
+             # if parcel.parcel_details()['ownerId'] ==1:
+            # print(parcel)
