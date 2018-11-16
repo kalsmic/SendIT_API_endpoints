@@ -20,13 +20,13 @@ from app.models.user import user
 
 from .http_responses import *
 from .models.user import user
-
+from config import Config
 
 
 def create_app(config=None):
     app = Flask(__name__)
-    app.config.from_object(os.environ['APP_SETTINGS'])
-
+    # app.config.from_object(os.environ['APP_SETTINGS'])
+    app.config.from_object(Config)
     @app.route('/')
     def index():
         return "SendIT is a courier service that helps users\
@@ -48,4 +48,4 @@ app = create_app()
 if __name__ == "__main__":
     # app = create_app()
     app.run()
-    print(os.environ['APP_SETTINGS'])
+    # print(os.environ['APP_SETTINGS'])
