@@ -1,31 +1,42 @@
-# from app import PARCELS
-# from app.http_responses import (
-#     Bad_request,
-#     Not_found,
-#     Not_modified
-# )
+
+# test_cancel_a_parcel.py
+
+"""Test Module for GET a specific parcel endpoint"""
+from flask import json
+
+from app.http_responses import (
+    Bad_request,
+Not_modified
+
+)
+
+def test_get_cancel_a_parcel_with_invalid_parcel_id(client):
+    # parcelId is an integer but does not exixt
+    with client.put('/api/v1/parcels/78/cancel') as parcelId_out_of_bounds:
+        assert parcelId_out_of_bounds.status_code == 400
+        assert json.loads(parcelId_out_of_bounds.data) == Bad_request
+
+    # parcelId is not off type integer
+    with client.put('/api/v1/parcels/7uf/cancel') as parcelId_not_an_integer:
+        assert parcelId_not_an_integer.status_code == 400
+        assert json.loads(parcelId_not_an_integer.data) == Bad_request
+
+
+
+def test_cancel_a_parcel_delivery_order_with_valid_parcelId(client):
+
+     # Pending
+    with client.put('/api/v1/parcels/1/cancel') as status_pending:
+        assert status_pending.status_code == 204
+
+
+
+#     # In transit
+    with client.put('/api/v1/parcels/2/cancel') as status_in_transit:
+        assert status_in_transit.status_code == 304
+        # assert json.loads(status_in_transit.data) == Not_modified
+# #
 #
-# from flask import json
-#
-#
-# def test_cancel_a_parcel_delivery_already_marked_as_delivered(client):
-#     """ API Consumer cancels a parceld delivery order
-#     whose status is already delivered or cancelled
-#     An HTTP status code of 304 is rerturned """
-#
-#     with client.get('/api/v1/parcels/3/cancel') as marked_as_delivered:
-#         marked_as_delivered.status_code == 304
-#
-#     with client.get('/api/v1/parcels/4/cancel') as already_cancelled:
-#         already_cancelled.status_code == 304
-#
-#
-# def test_cancel_a_parcel_delivery_already(client):
-#     """Given an API consumer
-#     When I submit a PUT to  /api/v1/parcels/<parcelId>
-#     And the parcel delivery order is yet to be marked as delivered
-#     Then the asset is status  updated
-#     And the system returns An HTTP status code of 204 """
-#
-#     in_transit = client.get('/api/v1/parcels/1/cancel')
-#     in_transit.status_code == 204
+#      # Delivered
+    with client.put('/api/v1/parcels/3/cancel') as status_delivered:
+        assert status_delivered.status_code == 304

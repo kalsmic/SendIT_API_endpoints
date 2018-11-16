@@ -10,6 +10,7 @@ from .dummy_data import (
 
 from app.models.parcel.get_parcels import getParcels
 from app.models.parcel.get_parcel import getParcel
+from app.models.parcel.cancel_parcel import cancelParcel
 
 from app.models.parcel.parcel import PARCEL
 
@@ -17,15 +18,6 @@ from .http_responses import *
 from .models.user import user
 
 
-PARCELS.extend ([
-    # PARCEL(id, 'item' 'pickUp', 'destination', 'status', ownerId),
-    PARCEL('item' ,'pickUp', 'destination', 'status', 'owner1'),
-    PARCEL('Laptop', 'Kampala', 'Moroto', 'pending', 'owner2'),
-    PARCEL('Office Cabin', 'Kole', 'Otuke', 'In Transit','owner3'),
-    PARCEL('HNIS FORMS', 'Yumbe', 'Koboko', 'Delivered', 'owner4'),
-    PARCEL('HNIS FORMS' ,'Yumbe', 'Koboko', 'Delivered', 'owner5'),
-    PARCEL('APPRAISAL FORMS' ,'Mwanza', 'Bukoba', 'Cancelled', 'owner6')
-])
 
 def create_app(config=None):
     app = Flask(__name__)
@@ -38,6 +30,7 @@ def create_app(config=None):
 
     app.register_blueprint(getParcels)
     app.register_blueprint(getParcel)
+    app.register_blueprint(cancelParcel)
     # app.register_blueprint(parcel)
     # app.register_blueprint(user)
 
