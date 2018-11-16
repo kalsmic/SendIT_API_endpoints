@@ -7,10 +7,27 @@ from flask import (
     Blueprint
 )
 
-from app.dummy_data import (
-    PARCELS,
-    USERS
-)
+
+USERS = [
+    {
+        "userId": 1,
+        "name": "Arthur"
+    },
+    {
+        "userId": 2,
+        "name": "Micheal"
+    },
+    {
+        "userId": 3,
+        "name": "Otim"
+    }
+]
+
+
+from app.models.parcel.parcel import get_parcel_by_id
+from app.models.parcel.parcel import PARCELS
+
+
 from app.http_responses import (
     Not_found,
     Bad_request
@@ -42,9 +59,11 @@ def get_a_parcel_by_userId(userId):
     # Only look up parcels for a valid user
     user_parcels = []
     for parcel in PARCELS:
-        if parcel['ownerId'] == userId:
+        if parcel.ownerId == userId:
 
-            user_parcels.append(parcel)
+            user_parcels.append(
+                get_parcel_by_id(parcel.id)
+            )
 
         # valid user has no parcels
     if not user_parcels:
