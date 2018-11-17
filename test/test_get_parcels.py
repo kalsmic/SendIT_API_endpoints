@@ -1,5 +1,9 @@
+# test_get_parcels.py
+
+"""Test Module for GET parcels endpoint"""
 from flask import json
-from app.dummy_data import PARCELS
+
+from app.models.parcel import parcelOrders
 
 
 def test_get_parcels(client):
@@ -14,9 +18,10 @@ def test_get_parcels(client):
         # A single parcel is of Type dictionary
         assert isinstance(data['parcels'][0], dict)
 
-        assert data['parcels'][0] == PARCELS[0]
-        assert data['parcels'][1] != PARCELS[0]
+        # Check if parcels the parcels returned match
 
-        assert data['parcels'][1] == PARCELS[1]
+        assert data['parcels'][0] == parcelOrders[0].parcel_details()
+        assert data['parcels'][0] != parcelOrders[1].parcel_details()
 
-        assert data['parcels'][0] != PARCELS[1]
+        # Check if the number of parcels returned matched the number of parcels available
+        assert len(data['parcels']) == len(parcelOrders)

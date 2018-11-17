@@ -1,51 +1,37 @@
-from flask import request, url_for, json
+# test_get__a_parcel.py
 
-from app.http_responses import (
-    Not_found
+"""Test Module for GET a specific parcel endpoint"""
+from flask import json
+
+from app.models.parcel import parcelOrders
+from app.responses import (
+    Bad_request
 )
 
 
 def test_get_a_parcel_with_invalid_parcel_id(client):
-    """Given an API Consumer
-    When I submit a GET request to /parcels/<parcelId> endpoint
-    And parcelId that does not exist in the parcel orders
-    Then the system returns an HTTP status code of 404
-    And a JSON representation of the error 'Not Found' """
+    """When an invalid parcel Id is provided"""
 
-    with client.get('/api/v1/parcels/7') as parcelId_out_of_bounds:
-        assert parcelId_out_of_bounds.status_code == 404
-        assert json.loads(parcelId_out_of_bounds.data) == Not_found
+
+    with client.get('/api/v1/parcels/0') as parcelId_out_of_bounds:
+        """Id is a number and does not exist in the parcels
+           Then system returns the specific parcel and a status code of 400"""
+        assert parcelId_out_of_bounds.status_code == 400
+        assert json.loads(parcelId_out_of_bounds.data) == Bad_request
 
     with client.get('/api/v1/parcels/7uf') as parcelId_not_an_integer:
-        assert parcelId_not_an_integer.status_code == 404
-        assert json.loads(parcelId_not_an_integer.data) == Not_found
+        """parcelId is not a number
+                   Then system returns the specific parcel and a status code of 400"""
+        assert parcelId_not_an_integer.status_code == 400
+        assert json.loads(parcelId_not_an_integer.data) == Bad_request
 
 
-def test_get_a_parcel(client):
-    # """Given an API Consumer
-    # When I submit a GET request to /parcels/<parcelId> endpoint
-    # And I have a valid parcel Id
-    # Then the system should return
-    # An HTTP status code of 200
-    # A JSON representation of the parcel delivery order
-    # that matches the parcelId """
-
+def test_get_a_parcel_with_parcelId_which_exists_and_is_valid(client):
+    """Given a valid parcel Id
+        Then system returns the specific parcel and a status code of 200"""
     response = client.get('/api/v1/parcels/1')
     assert response.status_code == 200
+
     data = json.loads(response.data.decode())
-    assert data['parcel'] == {
-        "DestinationAddress": "Moroto",
-        "Item": "Laptop",
-        "PickUpAddress": "kampala",
-        "Status": "Pending",
-        "id": 1,
-        "ownerId": 1
-    }
-    assert data['parcel'] != {
-        "DestinationAddress": "Otuke",
-        "Item": "Office Cabin",
-        "PickUpAddress": "Kole",
-        "Status": "In Transit",
-        "id": 2,
-        "ownerId": 2
-    }
+
+    assert data['parcel'] == parcelOrders[0].parcel_details()

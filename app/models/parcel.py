@@ -1,124 +1,53 @@
 # parcel.py
-""" Module contains endpoints for getting , creating and updating a parcel delivery order"""
+from app.models.user import user_id_table
 
-from flask import (
-    jsonify,
-    request,
-    json,
-    Blueprint
-)
+class ParcelOrder:
+    parcel_id = 1
 
-from app.dummy_data import PARCELS
+    def __init__(self, item, pick_up, destination, status, owner_id):
+        self.id = ParcelOrder.parcel_id
+        self.item = item
+        self.pickUp = pick_up
+        self.destination = destination
+        self.status = status
+        self.ownerId = owner_id
 
-from app.http_responses import (
-    Not_found,
-    Not_modified
-)
+        ParcelOrder.parcel_id += 1
+    #
+    def parcel_details(self):
+        """Returns the details of a parcel delivery order"""
 
-parcel = Blueprint('parcel',__name__,url_prefix='/api/v1')
+        return {
+            'id': self.id,
+            "Item": self.item,
+            "destination": self.destination,
+            "ownerId": user_id_table[self.ownerId].userName,
+            "pickUp": self.pickUp,
+            "status": self.status
+        }
 
+    def cancel_parcel_Order(self):
+        """Cancels a parcel delivery order"""
+        if self.status.upper() == 'PENDING':
+            # cancel Order
+            self.status = 'CANCELLED'
 
-@parcel.route('/parcels', methods=['GET'])
-def get_parcels():
-    """Fetch all parcel delivery orders"""
-    return jsonify({'parcels': PARCELS}), 200
+            return True
 
-
-@parcel.route('/parcels/<parcelId>', methods=['GET'])
-def get_a_parcel(parcelId):
-    """Fetch a specific parcel delivery order
-    Expects a parameter of type int
-    Returns: 404 Error if parcelId not found
-    Otherwise returns the parcel and HTTP code 200"""
-    # cast parcelId to int
-    try:
-        parcelId = int(parcelId)
-    # parcelId is not int
-    except (ValueError):
-        return jsonify(Not_found), 404
-
-    parcel = {}
-    for Order in PARCELS:
-        # parcel id exists
-        if Order['id'] == int(parcelId):
-            parcel['id'] = Order['id']
-            parcel['Item'] = Order['Item']
-            parcel['PickUpAddress'] = Order['pickUp']
-            parcel['DestinationAddress'] = Order['destination']
-            parcel['ownerId'] = Order['ownerId']
-            parcel['Status'] = Order['status']
-            
-            # Parcel is, return parcel
-            return jsonify({'parcel': parcel}), 200
-    # parcelId is of type int but does not exist in parcels
-    return jsonify(Not_found), 404
-
-
-@parcel.route('/parcels/<parcelId>/cancel', methods=['PUT'])
-def cancel_a_delivery_order(parcelId):
-    """Cancel a specific parcel delivery order
-    Expects parcelId as parameter and of type int
-    Returns: 400 if parcelId is invalid,
-    Returns: 204 if parcel's successfully cancelled
-    Returns : 304 if parcel is Already cancelled or Delivered
-    """
-    try:
-        parcelId = int(parcelId)
-
-    # id is not of type Number
-    except (TypeError, ValueError):
-        return jsonify(Bad_request), 400
-
-    modifiable = ('Delivered', 'Cancelled')
-
-    for parcel in PARCELS:
-            # Cancel order
-        if parcel['id'] == parcelId and parcel['status'] not in modifiable:
-            parcel['status'] = 'Cancelled'
-            return jsonify({'parcels': parcel}), 204
-
-    return jsonify(Not_modified), 304
-
-
-@parcel.route('/parcels', methods=['POST'])
-def add_a_parcel_order():
-    """Create a parcel delivery order
-    Expects parameters:
-        Item: type string
-        pickUp: type string
-        destination: type string
-        ownerId: type int
-    Returns:
-        400 HTTP error code if a parameter i not provided
-        201 HTTP error code  if Order is created Successfully
-
-    """
-
-    data = request.data
-    parcelDict = json.loads(data)
-
-    for key,value in parcelDict.items():
-        # empty fields
-        if not value:
-            return jsonify({'message':"{} cannot be empty".format(key)}),400
-    # add new parcel order
-    PARCELS.append(
-    {
-        'id': int( PARCELS[-1]['id']+1),
-        'Item': parcelDict['Item'],
-        'pickUp': parcelDict['pickUp'],
-        'destination': parcelDict['destination'],
-        'status': 'Pending',
-        'ownerId': parcelDict['ownerId']
-    }
-    )
-    # return the contents of the new order
-    return jsonify({'newOrder': PARCELS[-1]}),201
+        # Order is already delivered,Cancelled,or In transit
+        return False
 
 
 
 
+parcelOrders = [
+    ParcelOrder('item', 'pickUp Address', 'Destination Address', 'pending', 1),
+    ParcelOrder('Laptop', 'Kampala', 'Moroto', 'Pending', 1),
+    ParcelOrder('Office Cabin', 'Kole', 'Otuke', 'In Transit', 2),
+    ParcelOrder('HMIS FORMS', 'Kitgum', 'Agago', 'Delivered', 1),
+    ParcelOrder('HRH PLANS', 'Yumbe', 'Koboko', 'Cancelled', 1),
+    ParcelOrder('DJ Mavic Air Beats', 'Mwanza', 'Bukoba', 'Cancelled', 1),
+    ParcelOrder('APPRAISAL FORMS', 'Mwanza', 'Bukoba', 'Pending', 2)
 
-
-
-
+]
+parcel_id_table = {parcel.id: parcel for parcel in parcelOrders}

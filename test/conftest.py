@@ -6,13 +6,13 @@ from app import create_app
 def app():
     """Tells Flask that app is in test mode
     """
-    app = create_app({
-        'TESTING': True
-    })
+
+
+    app = create_app({  'TESTING': True  })
+
 
     with app.app_context():
         yield app
-
 
 @pytest.fixture
 def client(app):

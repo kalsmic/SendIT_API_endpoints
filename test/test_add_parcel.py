@@ -1,9 +1,5 @@
-from app import PARCELS
-from app.http_responses import (
-    Bad_request,
-    Not_found,
-    Not_modified
-)
+# test/test_add_parcel.py
+"""This file contains test for create a new parcel delivery order endpoint"""
 
 from flask import json
 
@@ -22,17 +18,17 @@ complete_data = {
 missing_data_response = {
     "message": "pickUp cannot be empty"
 }
+
 complete_data_response = {
-    "newOrder": {
+    "parcel": {
         "Item": "Text Books",
         "destination": "Mukono",
-        "id": 5,
-        "ownerId": 1,
+        "id": 8,
+        "ownerId": "user1",
         "pickUp": "Jinja",
         "status": "Pending"
     }
 }
-
 
 def test_create_a_parcel_delivery(client):
     mimetype = 'application/json'
