@@ -1,4 +1,3 @@
-import os
 import pytest
 from app import create_app
 
@@ -7,6 +6,7 @@ from app import create_app
 def app():
     """Tells Flask that app is in test mode
     """
+
 
     app = create_app({  'TESTING': True  })
 
