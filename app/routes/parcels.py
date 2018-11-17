@@ -53,7 +53,6 @@ def get_a_parcel(parcelId):
     if parcelId not in parcel_id_table.keys():
         return jsonify(Bad_request), 400
 
-
     # returns parcel with valid parcel id
     return jsonify({'parcel': parcelOrders[parcelId - 1].parcel_details()}), 200
 
@@ -125,6 +124,3 @@ def cancel_a_delivery_order(parcelId):
 
     # Cannot cancel parcels with status cancelled, In transit or delivered
     return jsonify(Not_modified), 304
-
-
-

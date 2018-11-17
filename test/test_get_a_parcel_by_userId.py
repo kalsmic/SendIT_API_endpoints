@@ -39,7 +39,7 @@ def test_get_parcels_for_a_valid_user_who_has_atleast_one_order(client):
         Then System should return the parcels with specified userId"""
     response = client.get('/api/v1/users/1/parcels')
     assert response.status_code == 200
-    assert json.loads(response.data) =={'parcels':[
+    assert json.loads(response.data) == {'parcels': [
         parcel.parcel_details() for parcel in parcelOrders if parcel.ownerId == 1]}
 
     assert json.loads(response.data) != {'parcels': [

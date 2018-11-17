@@ -4,8 +4,7 @@
 from flask import json
 
 from app.responses import (
-    Bad_request,
-    Not_modified
+    Bad_request
 
 )
 
@@ -27,6 +26,7 @@ def test_get_cancel_a_parcel_with_invalid_parcel_id(client):
 
 
 def test_cancel_a_parcel_delivery_order_with_valid_parcelId(client):
+    """Tests diffent Scenarios when Id is valid against the parcel's status"""
     # Pending
     with client.put('/api/v1/parcels/1/cancel') as status_pending:
         """When parcel has a status of pending
@@ -45,13 +45,13 @@ def test_cancel_a_parcel_delivery_order_with_valid_parcelId(client):
             }
         }
 
-    #     # In transit
+    #         In transit
     with client.put('/api/v1/parcels/3/cancel') as status_in_transit:
         """When parcel has a status of In Transit
         Then asset is not modified"""
         assert status_in_transit.status_code == 304
 
-    #      # Delivered
+    #          Delivered
     with client.put('/api/v1/parcels/4/cancel') as status_delivered:
         """When parcel has a status of Delivered
              Then asset is not modified"""

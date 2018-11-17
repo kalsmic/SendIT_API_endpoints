@@ -1,14 +1,17 @@
 # users.py
 """ Module contains Data structure for a User"""
 
+
 class User:
     """class defines the user data structure"""
+
     def __init__(self, id, user_name):
         self.id = id
         self.userName = user_name
 
     def __str__(self):
         return "User(id='%s',username='%s')" % (self.id, self.userName)
+
 
 users = [
     User(1, 'user1'),
@@ -17,6 +20,7 @@ users = [
 ]
 user_name_table = {user.userName: user for user in users}
 user_id_table = {user.id: user for user in users}
+
 
 def verify_user_id(user_id):
     """verify user id

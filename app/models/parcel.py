@@ -1,6 +1,7 @@
 # parcel.py
 from app.models.user import user_id_table
 
+
 class ParcelOrder:
     parcel_id = 1
 
@@ -13,6 +14,7 @@ class ParcelOrder:
         self.ownerId = owner_id
 
         ParcelOrder.parcel_id += 1
+
     #
     def parcel_details(self):
         """Returns the details of a parcel delivery order"""
@@ -36,8 +38,6 @@ class ParcelOrder:
 
         # Order is already delivered,Cancelled,or In transit
         return False
-
-
 
 
 parcelOrders = [

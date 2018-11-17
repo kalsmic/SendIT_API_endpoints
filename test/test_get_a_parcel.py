@@ -12,7 +12,6 @@ from app.responses import (
 def test_get_a_parcel_with_invalid_parcel_id(client):
     """When an invalid parcel Id is provided"""
 
-
     with client.get('/api/v1/parcels/0') as parcelId_out_of_bounds:
         """Id is a number and does not exist in the parcels
            Then system returns the specific parcel and a status code of 400"""
