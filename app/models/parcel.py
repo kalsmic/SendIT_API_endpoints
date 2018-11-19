@@ -28,18 +28,6 @@ class ParcelOrder:
             "status": self.status
         }
 
-    def cancel_parcel_Order(self):
-        """Cancels a parcel delivery order"""
-        if self.status.upper() == 'PENDING':
-            # cancel Order
-            self.status = 'CANCELLED'
-
-            return True
-
-        # Order is already delivered,Cancelled,or In transit
-        return False
-
-
 parcelOrders = [
     ParcelOrder('item', 'pickUp Address', 'Destination Address', 'pending', 1),
     ParcelOrder('Laptop', 'Kampala', 'Moroto', 'Pending', 1),
