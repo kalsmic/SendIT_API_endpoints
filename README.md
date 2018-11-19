@@ -13,13 +13,13 @@ SendIT is a courier service that helps users deliver parcels to different destin
 
 **SENDIT API ENDPOINTS**
 
-| EndPoint                       | Functionality                                      |
-| ------------------------------ | -------------------------------------------------- |
-| GET /parcels                   | Fetch all parcel delivery orders                   |
-| GET /parcels/<parcelId>        | Fetch a specific parcel delivery order             |
-| GET /users/<userId>/parcels    | Fetch all parcel delivery orders by a specific user|
-| PUT /parcels/<parcelId>/cancel | Cancel the specific parcel delivery order          |
-| POST /parcels                  | Create a parcel delivery order                     |
+| EndPoint                             | Functionality                                      |
+| ------------------------------------ | -------------------------------------------------- |
+| GET api/v1/parcels                   | Fetch all parcel delivery orders                   |
+| GET api/v1/parcels/<parcelId>        | Fetch a specific parcel delivery order             |
+| GET api/v1/users/<userId>/parcels    | Fetch all parcel delivery orders by a specific user|
+| PUT api/v1/parcels/<parcelId>/cancel | Cancel the specific parcel delivery order          |
+| POST api/v1/parcels                  | Create a parcel delivery order                     |
 
 How to set up the project
 Open the terminal and run the following commands
